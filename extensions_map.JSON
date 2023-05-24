@@ -1,0 +1,14 @@
+{
+	".7z" : "Archives",
+	".rar" : "Archives",
+	".zip" : "Archives",
+	".pdf" : "Documents",
+	".doc" : "Documents",
+	".docx" : "Documents",
+	".jpeg" : "Images",
+	".jpg" : "Images",
+	".png" : "Images",
+	".avi" : "Videos",
+	".mp4" : "Videos",
+	".mkv" : "Videos"
+}	
