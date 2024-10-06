@@ -1,92 +1,53 @@
-# Allows program to interact with OS.
+# file_organizer.py
+
 import os
-# Shell utilities, allows program to perform common file operations such as copying or moving.
-import shutil
-import json
-from typing import Dict
-# Able to create and manipulate GUI widgets
-from tkinter import Tk, messagebox
-# Convenient way to prompt user to select a directory using a dialog box
-from tkinter.filedialog import askdirectory
+from tkinter import Tk, Button, Label, messagebox
+from utils import show_message, load_db, edit_db
+from file_operations import organize_files, user_prompt
 
-
-def show_error_message(title: str, message: str) -> None:
-    root = Tk()
-    root.withdraw()
-    messagebox.showerror(title, message)
-
-
-def show_success_message(title: str, message: str) -> None:
-    root = Tk()
-    root.withdraw()
-    messagebox.showinfo(title, message)
-
-
-def load_db() -> Dict[str, str]:
+def user_selection_menu() -> None:
     """
-
-    Loads extensions_map.JSON in directory file_organizer.py is run in.
-    Returns:
-        Dict[str, str]: Dictionary mapping file extensions to folder names.
-
+    Creates a window that lets the user choose between organizing a folder or editing the JSON file.
     """
+    def on_organize():
+        extensions_mapping = load_db()
+        if not extensions_mapping:
+            return # Do nothing if extensions_map.JSON not found
+        
+        selected_directory = user_prompt()
 
-    file_path = os.path.join(os.curdir, 'extensions_map.JSON')
-    try:
-        with open(file_path) as file:
-            extensions_map = json.load(file)
-        return extensions_map
-    except FileNotFoundError:
-        show_error_message('Error', 'extensions_map.JSON not found')
-        return {}
-
-
-def user_prompt() -> str:
-    """
-
-    Prompt user to select a directory to organize
-    Returns:
-        str: Selected path
-
-    """
-    root = Tk()
-    root.withdraw()
-    return askdirectory(title="Select a folder")
-
-
-def organize_files(working_directory: str, extension_to_folder: Dict[str, str]) -> None:
-    """
-
-    Organizes files in a given directory based on the file extension.
-
-    Parameters:
-        working_directory (str) : Target directory where files are located.
-        extension_to_folder (dict) : Dictionary mapping file extensions to folder names.
-
-    """
-    for filename in os.listdir(working_directory):
-        if os.path.isfile(os.path.join(working_directory, filename)):
-            file_extension = os.path.splitext(filename)[1]
-            if file_extension in extension_to_folder:
-                folder_name = extension_to_folder[file_extension]
-                folder_path = os.path.join(working_directory, folder_name)
-                if not os.path.exists(folder_path):
-                    os.makedirs(folder_path)
-                shutil.move(os.path.join(working_directory, filename),
-                            os.path.join(folder_path, filename))
-
-
-extensions_mapping = load_db()
-
-if extensions_mapping:
-    selected_directory = user_prompt()
-    if selected_directory != '' and os.path.exists(selected_directory):
+        # If user clicks "Cancel," selected_directory will be an empty string
+        if not selected_directory:
+            return # Do nothing if user cancels
+         
+        #Check for valid directory
+        if not os.path.exists(selected_directory):
+            show_message('Error', 'INVALID DIRECTORY')
+            return # Do nothing if directory doesn't exist
+         
         try:
             organize_files(selected_directory, extensions_mapping)
-            show_success_message('Success', 'Folder is now sorted')
+            show_message('Success', 'SUCCESSFULLY SORTED')
         except Exception as e:
-            show_error_message('Error', str(e))
-    else:
-        show_error_message('Error', 'Either no directory or an invalid one was selected')
+            show_message('Error', f"{'SORTING FAILED'}: {str(e)}")
 
+    def on_edit_db():
+        edit_db()
 
+    def initialize_gui() -> None:
+        root = Tk()
+        root.title("File Organizer")
+        root.geometry('300x150')
+
+        Label(root, text="Choose an action:", font=("Arial", 14)).pack(pady=10)
+
+        organize_button = Button(root, text="Organize Folder", command=on_organize, width=25)
+        organize_button.pack(pady=5)
+
+        edit_button = Button(root, text="Edit JSON File", command=on_edit_db, width=25)
+        edit_button.pack(pady=5)
+
+        root.protocol("WM_DELETE_WINDOW", root.quit)  # Close the window properly
+        root.mainloop()
+
+    initialize_gui()
