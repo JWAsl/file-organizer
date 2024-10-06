@@ -10,5 +10,8 @@
 	".png" : "Images",
 	".avi" : "Videos",
 	".mp4" : "Videos",
-	".mkv" : "Videos"
+	".mkv" : "Videos",
+	".gif" : "Images",
+	".pdf" : "Documents",
+        ".txt" : "Documents"
 }	
