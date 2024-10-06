@@ -1,5 +1,3 @@
-# file_operations.py
-
 import shutil
 from tkinter import Tk
 from tkinter.filedialog import askdirectory
