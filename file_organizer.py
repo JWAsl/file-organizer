@@ -1,7 +1,7 @@
-import os
 from tkinter import Tk, Button, Label, messagebox
 from utils import show_message, load_db, edit_db
 from file_operations import organize_files, user_prompt
+from pathlib import Path
 
 def user_selection_menu() -> None:
     """
@@ -12,14 +12,14 @@ def user_selection_menu() -> None:
         if not extensions_mapping:
             return # Do nothing if extensions_map.JSON not found
         
-        selected_directory = user_prompt()
+        selected_directory = Path(user_prompt())
 
         # If user clicks "Cancel," selected_directory will be an empty string
         if not selected_directory:
             return # Do nothing if user cancels
          
         #Check for valid directory
-        if not os.path.exists(selected_directory):
+        if not selected_directory.exists() or not selected_directory.is_dir():
             show_message('Error', 'INVALID DIRECTORY')
             return # Do nothing if directory doesn't exist
          
