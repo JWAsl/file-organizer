@@ -1,5 +1,3 @@
-# utils.py
-
 import json
 from tkinter import Tk, messagebox
 from pathlib import Path
