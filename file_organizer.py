@@ -1,5 +1,3 @@
-# file_organizer.py
-
 import os
 from tkinter import Tk, Button, Label, messagebox
 from utils import show_message, load_db, edit_db
