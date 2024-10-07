@@ -5,6 +5,7 @@ This file organizer is a Python script that will organize files in a chosen dire
 ## Features
 
 Prompts user to select a directory to organize (No need to input path using text). \
+Able to open the JSON file to edit. \
 Loads file extension to folder name  mappings from a JSON file. \
 Organize files in selected  directory  based on their extension. \
 Create destination folders if they don't already exist. \
@@ -24,14 +25,14 @@ Move files to their respective folders.
 }
 ```
 
-3. Run the 'organize_files.py' script. You will be prompted to select a directory to organize.
+3. Run the main.py. You will be prompted to select a directory to organize or edit the JSON file.
 
 4. After selecting the directory, the script will load the extensions mappings from the JSON file and organize accordingly.
    Note: Make sure you have appropriate permissions as the script will move files into folders within the directory.
 
 ## Customization
 
-You can modify the extensions_map.JSON to add or remove entries. I have included some of the more common file types and some folders to put them in already.
+You can modify the extensions_map.JSON to add or remove entries. I have included some of the more common file types and some folders to put them in.
 
 # License
 
