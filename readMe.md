@@ -18,9 +18,9 @@ Move files to their respective folders.
 
 ```json
 {
-    ".ext1:" "Folder1",
-    ".ext2:" "Folder2",
-    ".ext3:" "Folder3"
+    ".ext1" : "Folder1",
+    ".ext2" : "Folder2",
+    ".ext3" : "Folder3"
 }
 ```
 
